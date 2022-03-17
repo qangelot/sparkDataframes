@@ -30,7 +30,7 @@ object DataFrame {
     println("Distinct cities: " + df.select("Code_commune_INSEE").distinct().count())
 
     // Number of cities with ligne_5 not null
-    val ligne5NotNull = df.na.drop("any", Seq("Ligne_5"))
+    val ligne5NotNull = df.select("Code_commune_INSEE").filter("Ligne_5 is not null").distinct()
     println("Number of cities with ligne_5: " + ligne5NotNull.count())
 
     // Add columns with dept code
@@ -53,10 +53,8 @@ object DataFrame {
 
     // Department with the most Cities
     println("Department with the most Cities: ")
-    val depWithMostCities = dfEnhanced.groupBy("Code_departement").count().sort(desc("count")).select("Code_departement").show(1)
+    val depWithMostCities = dfEnhanced.groupBy("Code_departement").agg(countDistinct("Code_commune_INSEE").as("count")).sort(desc("count")).show(1)
 
   }
-
-
 
 }
