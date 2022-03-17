@@ -37,6 +37,7 @@ object DataFrame {
     val dfEnhanced = df.withColumn("Code_departement", substring(col("Code_commune_INSEE"), 1, 2))
     println("Add columns with dept code: ")
     dfEnhanced.show()
+    
     // Save to csv
     dfEnhanced.select("Code_commune_INSEE", "Nom_commune", "Code_postal", "Code_departement")
       .sort("Code_postal")
